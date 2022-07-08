@@ -2,10 +2,10 @@ import React from 'react';
 import useStopwatch from './hooks/use-stopwatch/use-stopwatch';
 
 function App() {
-  const stopwatch = useStopwatch({});
+  const stopwatch = useStopwatch({ ascending: false });
 
   const updateConfig = () => {
-    stopwatch.updateConfig({ display: 'min' });
+    stopwatch.updateConfig({ display: 'min', autoStart: true });
   };
 
   return (

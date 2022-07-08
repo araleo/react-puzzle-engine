@@ -7,8 +7,8 @@ interface StopwatchUserConfig {
   stopAt?: number;
   interval?: number;
   autoStart?: boolean;
-  ascending?: boolean;
   display?: DisplayOptions;
+  ascending?: boolean;
 }
 
 interface StopwatchConfig {
@@ -16,8 +16,8 @@ interface StopwatchConfig {
   stopAt: number;
   interval: number;
   autoStart: boolean;
-  ascending: boolean;
   display: DisplayOptions;
+  sign: number;
 }
 
 interface Stopwatch {
@@ -30,8 +30,8 @@ const defaultConfig: StopwatchConfig = {
   stopAt: Number.POSITIVE_INFINITY,
   interval: 1000,
   autoStart: false,
-  ascending: true,
   display: 'sec',
+  sign: 1,
 };
 
 const defaultStopwatch: Stopwatch = {
@@ -60,17 +60,20 @@ const useStopwatch = (userConfig: StopwatchUserConfig) => {
     setWatch(format(stopwatch.current, config.display));
   }, [stopwatch.current]);
 
-  useInterval(() => {
-    const { running, current } = stopwatch;
-    const { interval, ascending } = config;
+  useInterval(
+    () => {
+      console.log('a');
+      const { running, current } = stopwatch;
+      const { interval, sign } = config;
 
-    if (running) {
-      const state = { ...stopwatch };
-      const sign = ascending ? 1 : -1;
-      state.current = current + interval * sign;
-      setStopwatch(state);
-    }
-  }, config.interval);
+      if (running) {
+        const state = { ...stopwatch };
+        state.current = current + interval * sign;
+        setStopwatch(state);
+      }
+    },
+    stopwatch.running ? config.interval : null
+  );
 
   const start = () => {
     const state = { ...stopwatch };
@@ -96,8 +99,13 @@ const useStopwatch = (userConfig: StopwatchUserConfig) => {
       stopAt: userConfig.stopAt || config.stopAt,
       interval: userConfig.interval || config.interval,
       autoStart: userConfig.autoStart || config.autoStart,
-      ascending: userConfig.ascending || config.ascending,
       display: userConfig.display || config.display,
+      sign:
+        userConfig.ascending === undefined
+          ? config.sign
+          : userConfig.ascending
+          ? 1
+          : -1,
     };
     setConfig(newConfig);
   };
