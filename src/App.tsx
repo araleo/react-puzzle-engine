@@ -1,23 +1,26 @@
 import React from 'react';
 import useStopwatch from './hooks/use-stopwatch/use-stopwatch';
 
-function App() {
-  const stopwatch = useStopwatch({ ascending: false });
+const App = () => {
+  const stopwatch = useStopwatch({ startAt: 3590, stopAt: 4000 });
 
   const updateConfig = () => {
-    stopwatch.updateConfig({ display: 'min', autoStart: true });
+    stopwatch.update({
+      display: 'hour',
+    });
   };
 
   return (
     <>
       <h1>Hello, React Puzzle Engine!</h1>
-      <p>{stopwatch.watch}</p>
-      <button onClick={() => stopwatch.start()}>Iniciar</button>
-      <button onClick={() => stopwatch.reset()}>Reset</button>
-      <button onClick={() => stopwatch.stop()}>Stop</button>
+      <p>{stopwatch.current}</p>
+      <p>{stopwatch.format()}</p>
+      <button onClick={stopwatch.start}>Iniciar</button>
+      <button onClick={stopwatch.reset}>Reset</button>
+      <button onClick={stopwatch.stop}>Stop</button>
       <button onClick={updateConfig}>Update</button>
     </>
   );
-}
+};
 
 export default App;

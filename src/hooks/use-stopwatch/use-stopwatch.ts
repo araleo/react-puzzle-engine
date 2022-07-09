@@ -1,23 +1,27 @@
 import { useEffect, useState } from 'react';
-import { DisplayOptions, format } from './lib';
+import {
+  DisplayOptions,
+  getSign,
+  msToHoursMinsAndSecs,
+  msToMinsAndSecs,
+  secsToMs,
+} from './lib';
 import useInterval from './use-interval';
 
 interface StopwatchUserConfig {
   startAt?: number;
   stopAt?: number;
-  interval?: number;
   autoStart?: boolean;
-  display?: DisplayOptions;
   ascending?: boolean;
+  display?: DisplayOptions;
 }
 
 interface StopwatchConfig {
   startAt: number;
   stopAt: number;
-  interval: number;
   autoStart: boolean;
+  sign: 1 | -1;
   display: DisplayOptions;
-  sign: number;
 }
 
 interface Stopwatch {
@@ -28,10 +32,9 @@ interface Stopwatch {
 const defaultConfig: StopwatchConfig = {
   startAt: 0,
   stopAt: Number.POSITIVE_INFINITY,
-  interval: 1000,
   autoStart: false,
-  display: 'sec',
   sign: 1,
+  display: 'sec',
 };
 
 const defaultStopwatch: Stopwatch = {
@@ -39,8 +42,9 @@ const defaultStopwatch: Stopwatch = {
   running: defaultConfig.autoStart,
 };
 
+const INTERVAL = 1000;
+
 const useStopwatch = (userConfig: StopwatchUserConfig) => {
-  const [watch, setWatch] = useState<string>('');
   const [config, setConfig] = useState<StopwatchConfig>(defaultConfig);
   const [stopwatch, setStopwatch] = useState<Stopwatch>(defaultStopwatch);
 
@@ -49,30 +53,30 @@ const useStopwatch = (userConfig: StopwatchUserConfig) => {
   }, []);
 
   useEffect(() => {
-    const newStopwatch: Stopwatch = {
-      current: config.startAt,
-      running: config.autoStart,
-    };
-    setStopwatch(newStopwatch);
-  }, [config]);
+    const state = { ...stopwatch };
+    state.current = config.startAt;
+    state.running = config.autoStart;
+    setStopwatch(state);
+  }, [config.startAt, config.autoStart]);
 
-  useEffect(() => {
-    setWatch(format(stopwatch.current, config.display));
-  }, [stopwatch.current]);
+  const isRunning = (): boolean => {
+    if (!stopwatch.running) {
+      return false;
+    } else if (config.sign === 1) {
+      return stopwatch.current < config.stopAt;
+    } else {
+      return stopwatch.current > config.stopAt;
+    }
+  };
 
   useInterval(
     () => {
-      console.log('a');
-      const { running, current } = stopwatch;
-      const { interval, sign } = config;
-
-      if (running) {
-        const state = { ...stopwatch };
-        state.current = current + interval * sign;
-        setStopwatch(state);
-      }
+      const { sign } = config;
+      const state = { ...stopwatch };
+      state.current += INTERVAL * sign;
+      setStopwatch(state);
     },
-    stopwatch.running ? config.interval : null
+    isRunning() ? INTERVAL : null
   );
 
   const start = () => {
@@ -93,24 +97,41 @@ const useStopwatch = (userConfig: StopwatchUserConfig) => {
     setStopwatch(state);
   };
 
+  const format = () => {
+    const display = config.display;
+    const ms = stopwatch.current;
+    switch (display) {
+      case 'sec':
+        return (ms / 1000).toString();
+      case 'min':
+        return msToMinsAndSecs(ms);
+      case 'hour':
+        return msToHoursMinsAndSecs(ms);
+      case 'ms':
+      default:
+        return ms.toString();
+    }
+  };
+
   const updateConfig = (userConfig: StopwatchUserConfig) => {
     const newConfig: StopwatchConfig = {
-      startAt: userConfig.startAt || config.startAt,
-      stopAt: userConfig.stopAt || config.stopAt,
-      interval: userConfig.interval || config.interval,
+      startAt: secsToMs(userConfig.startAt, config.startAt),
+      stopAt: secsToMs(userConfig.stopAt, config.stopAt),
       autoStart: userConfig.autoStart || config.autoStart,
+      sign: getSign(userConfig.ascending, config.sign),
       display: userConfig.display || config.display,
-      sign:
-        userConfig.ascending === undefined
-          ? config.sign
-          : userConfig.ascending
-          ? 1
-          : -1,
     };
     setConfig(newConfig);
   };
 
-  return { watch, start, reset, stop, updateConfig };
+  return {
+    current: stopwatch.current,
+    start,
+    reset,
+    stop,
+    update: updateConfig,
+    format,
+  };
 };
 
 export default useStopwatch;
