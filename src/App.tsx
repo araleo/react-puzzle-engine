@@ -2,7 +2,7 @@ import React from 'react';
 import useStopwatch from './hooks/use-stopwatch/use-stopwatch';
 
 const App = () => {
-  const stopwatch = useStopwatch({ startAt: 3590, stopAt: 4000 });
+  const stopwatch = useStopwatch({});
 
   const updateConfig = () => {
     stopwatch.update({

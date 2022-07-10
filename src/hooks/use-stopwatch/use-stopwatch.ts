@@ -59,15 +59,15 @@ const useStopwatch = (userConfig: StopwatchUserConfig) => {
     setStopwatch(state);
   }, [config.startAt, config.autoStart]);
 
-  const isRunning = (): boolean => {
-    if (!stopwatch.running) {
-      return false;
-    } else if (config.sign === 1) {
-      return stopwatch.current < config.stopAt;
+  useEffect(() => {
+    const state = { ...stopwatch };
+    if (config.sign === 1) {
+      state.running = state.running && stopwatch.current < config.stopAt;
     } else {
-      return stopwatch.current > config.stopAt;
+      state.running = state.running && stopwatch.current > config.stopAt;
     }
-  };
+    setStopwatch(state);
+  }, [stopwatch.current]);
 
   useInterval(
     () => {
@@ -76,7 +76,7 @@ const useStopwatch = (userConfig: StopwatchUserConfig) => {
       state.current += INTERVAL * sign;
       setStopwatch(state);
     },
-    isRunning() ? INTERVAL : null
+    stopwatch.running ? INTERVAL : null
   );
 
   const start = () => {
@@ -126,6 +126,7 @@ const useStopwatch = (userConfig: StopwatchUserConfig) => {
 
   return {
     current: stopwatch.current,
+    isRunning: stopwatch.running,
     start,
     reset,
     stop,
