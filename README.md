@@ -14,7 +14,7 @@ npm start
 
 ## TODO
 
-- [ ] Stopwatch
+- [x] Stopwatch
 - [ ] Lifes
 - [ ] Score
 - [ ] Game states (start, pause, end)
