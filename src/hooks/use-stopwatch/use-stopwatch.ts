@@ -113,15 +113,14 @@ const useStopwatch = (userConfig: StopwatchUserConfig) => {
     }
   };
 
-  const updateConfig = (userConfig: StopwatchUserConfig) => {
-    const newConfig: StopwatchConfig = {
-      startAt: secsToMs(userConfig.startAt, config.startAt),
-      stopAt: secsToMs(userConfig.stopAt, config.stopAt),
-      autoStart: userConfig.autoStart || config.autoStart,
-      sign: getSign(userConfig.ascending, config.sign),
-      display: userConfig.display || config.display,
-    };
-    setConfig(newConfig);
+  const updateConfig = (newConfig: StopwatchUserConfig) => {
+    setConfig({
+      startAt: secsToMs(newConfig.startAt, config.startAt),
+      stopAt: secsToMs(newConfig.stopAt, config.stopAt),
+      autoStart: newConfig.autoStart || config.autoStart,
+      sign: getSign(newConfig.ascending, config.sign),
+      display: newConfig.display || config.display,
+    });
   };
 
   return {
