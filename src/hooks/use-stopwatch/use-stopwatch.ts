@@ -44,12 +44,14 @@ const defaultStopwatch: Stopwatch = {
 
 const INTERVAL = 1000;
 
-const useStopwatch = (userConfig: StopwatchUserConfig) => {
+const useStopwatch = (userConfig?: StopwatchUserConfig) => {
   const [config, setConfig] = useState<StopwatchConfig>(defaultConfig);
   const [stopwatch, setStopwatch] = useState<Stopwatch>(defaultStopwatch);
 
   useEffect(() => {
-    updateConfig(userConfig);
+    if (userConfig !== undefined) {
+      updateConfig(userConfig);
+    }
   }, []);
 
   useEffect(() => {

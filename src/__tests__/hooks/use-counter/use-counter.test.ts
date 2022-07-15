@@ -3,7 +3,7 @@ import useCounter from '../../../hooks/use-counter/use-counter';
 
 describe('useCounter hook tests', () => {
   test('useCounter loads with the default configs', () => {
-    const { result } = renderHook(() => useCounter({}));
+    const { result } = renderHook(() => useCounter());
     expect(result.current.counter).toBe(0);
   });
 
@@ -13,7 +13,7 @@ describe('useCounter hook tests', () => {
   });
 
   test('useCounter add works for sums', () => {
-    const { result } = renderHook(() => useCounter({}));
+    const { result } = renderHook(() => useCounter());
     expect(result.current.counter).toBe(0);
     act(() => result.current.add(10));
     expect(result.current.counter).toBe(10);
@@ -41,7 +41,7 @@ describe('useCounter hook tests', () => {
   });
 
   test('useCounter handleCounter sets a new value', () => {
-    const { result } = renderHook(() => useCounter({}));
+    const { result } = renderHook(() => useCounter());
     expect(result.current.counter).toBe(0);
     act(() => result.current.handleCounter(10));
     expect(result.current.counter).toBe(10);
@@ -62,7 +62,7 @@ describe('useCounter hook tests', () => {
   });
 
   test('useCounter updateConfig works', () => {
-    const { result } = renderHook(() => useCounter({}));
+    const { result } = renderHook(() => useCounter());
     expect(result.current.counter).toBe(0);
     act(() => result.current.add(100));
     expect(result.current.counter).toBe(100);

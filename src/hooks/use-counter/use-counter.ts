@@ -18,12 +18,14 @@ const defaultConfig = {
   start: 0,
 };
 
-const useCounter = (userConfig: CounterUserConfig) => {
+const useCounter = (userConfig?: CounterUserConfig) => {
   const [config, setConfig] = useState<CounterConfig>(defaultConfig);
   const [counter, setCounter] = useState<number>(defaultConfig.start);
 
   useEffect(() => {
-    updateConfig(userConfig);
+    if (userConfig !== undefined) {
+      updateConfig(userConfig);
+    }
   }, []);
 
   useEffect(() => {
