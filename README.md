@@ -12,8 +12,8 @@ npm test
 ## Features
 
 - [x] Stopwatch
-- [ ] Score
-- [ ] Lifes
+- [x] Score
+- [x] Lifes
 - [ ] Game states (start, pause, end)
 - [ ] Levels
 - [ ] Utils
