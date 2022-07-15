@@ -62,6 +62,15 @@ describe('useLifes hook tests', () => {
     expect(result.current.lifes).toBe(3);
   });
 
+  test('useLifes reset resets lifes to original custom value', () => {
+    const { result } = renderHook(() => useLifes({ start: 5 }));
+    expect(result.current.lifes).toBe(5);
+    act(() => result.current.addLifes(5));
+    expect(result.current.lifes).toBe(10);
+    act(() => result.current.resetLifes());
+    expect(result.current.lifes).toBe(5);
+  });
+
   test('useLifes min and max configs works', () => {
     const { result } = renderHook(() =>
       useLifes({ min: 10, max: 20, start: 10 })
