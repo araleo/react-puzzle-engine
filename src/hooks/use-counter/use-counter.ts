@@ -29,7 +29,7 @@ const useCounter = (userConfig?: CounterUserConfig) => {
   }, []);
 
   useEffect(() => {
-    setCounter(config.start);
+    handleCounter(config.start);
   }, [config.start]);
 
   const handleCounter = (newCounter: number) => {

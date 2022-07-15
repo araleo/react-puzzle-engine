@@ -25,9 +25,9 @@ const useLifes = (userConfig?: CounterUserConfig) => {
   return {
     lifes: counter,
     addLifes: add,
+    multiplyLifes: multiply,
     addOneLife: addOne,
     takeOneLife: takeOne,
-    multiplyLifes: multiply,
     setLifes: handleCounter,
     resetLifes: reset,
   };
