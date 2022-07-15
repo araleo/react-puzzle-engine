@@ -10,15 +10,26 @@ const defaultLifeConfigs: CounterConfig = {
 };
 
 const useLifes = (userConfig?: CounterUserConfig) => {
-  const { counter, add, multiply, handleCounter } = useCounter(
+  const { counter, add, multiply, handleCounter, reset } = useCounter(
     userConfig || defaultLifeConfigs
   );
+
+  const addOne = () => {
+    add(1);
+  };
+
+  const takeOne = () => {
+    add(-1);
+  };
 
   return {
     lifes: counter,
     addLifes: add,
+    addOneLife: addOne,
+    takeOneLife: takeOne,
     multiplyLifes: multiply,
     setLifes: handleCounter,
+    resetLifes: reset,
   };
 };
 

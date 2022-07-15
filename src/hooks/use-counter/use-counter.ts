@@ -46,6 +46,10 @@ const useCounter = (userConfig?: CounterUserConfig) => {
     handleCounter(counter * value);
   };
 
+  const reset = () => {
+    handleCounter(config.start);
+  };
+
   const updateConfig = (newConfig: CounterUserConfig) => {
     setConfig({
       min: newConfig.min || config.min,
@@ -54,7 +58,7 @@ const useCounter = (userConfig?: CounterUserConfig) => {
     });
   };
 
-  return { counter, add, multiply, handleCounter, updateConfig };
+  return { counter, add, multiply, reset, handleCounter, updateConfig };
 };
 
 export default useCounter;
