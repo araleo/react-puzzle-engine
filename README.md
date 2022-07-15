@@ -6,21 +6,22 @@ A game engine for building React puzzle games.
 
 ```
 npm start
+npm test
 ```
 
 ## Features
 
-:)
-
-## TODO
-
 - [x] Stopwatch
-- [ ] Lifes
 - [ ] Score
+- [ ] Lifes
 - [ ] Game states (start, pause, end)
+- [ ] Levels
+- [ ] Utils
+    - [ ] Make 2d array (grid)
+    - [ ] Shuffle 1d and 2d arrays
+    - [ ] RNGs
 
-
-## Game ideas
+## Game examples
 - [ ] Guessing game
 - [ ] Mine field
 - [ ] Hangman
