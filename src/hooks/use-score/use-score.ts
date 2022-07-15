@@ -1,9 +1,14 @@
-import useCounter from '../use-counter/use-counter';
+import useCounter, { CounterUserConfig } from '../use-counter/use-counter';
 
-const useScore = () => {
-  const { counter, add, multiply, handleCounter } = useCounter({});
+const useScore = (userConfig?: CounterUserConfig) => {
+  const { counter, add, multiply, handleCounter } = useCounter(userConfig);
 
-  return { counter, add, multiply, set: handleCounter };
+  return {
+    score: counter,
+    addScore: add,
+    multiplyScore: multiply,
+    setScore: handleCounter,
+  };
 };
 
 export default useScore;

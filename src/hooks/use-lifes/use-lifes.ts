@@ -1,9 +1,25 @@
-import useCounter from '../use-counter/use-counter';
+import useCounter, {
+  CounterConfig,
+  CounterUserConfig,
+} from '../use-counter/use-counter';
 
-const useLifes = () => {
-  const { counter, add, multiply, handleCounter } = useCounter({});
+const defaultLifeConfigs: CounterConfig = {
+  min: 0,
+  max: Number.MAX_SAFE_INTEGER,
+  start: 3,
+};
 
-  return { counter, add, multiply, set: handleCounter };
+const useLifes = (userConfig?: CounterUserConfig) => {
+  const { counter, add, multiply, handleCounter } = useCounter(
+    userConfig || defaultLifeConfigs
+  );
+
+  return {
+    lifes: counter,
+    addLifes: add,
+    multiplyLifes: multiply,
+    setLifes: handleCounter,
+  };
 };
 
 export default useLifes;

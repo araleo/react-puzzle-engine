@@ -14,7 +14,7 @@ export interface CounterUserConfig {
 
 const defaultConfig = {
   min: 0,
-  max: Number.POSITIVE_INFINITY,
+  max: Number.MAX_SAFE_INTEGER,
   start: 0,
 };
 
