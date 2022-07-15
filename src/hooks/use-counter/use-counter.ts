@@ -26,6 +26,10 @@ const useCounter = (userConfig: CounterUserConfig) => {
     updateConfig(userConfig);
   }, []);
 
+  useEffect(() => {
+    setCounter(config.start);
+  }, [config.start]);
+
   const handleCounter = (newCounter: number) => {
     if (newCounter >= config.min && newCounter <= config.max) {
       setCounter(newCounter);
