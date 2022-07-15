@@ -22,7 +22,7 @@ npm test
     - [ ] RNGs
 
 ## Game examples
-- [ ] Guessing game
+- [x] [Guessing game](src/examples/guessing/Guessing.tsx)
 - [ ] Mine field
 - [ ] Hangman
 - [ ] Connect dots

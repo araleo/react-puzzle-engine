@@ -9,7 +9,7 @@ const GuessingGame = () => {
   const [result, setResult] = useState<string>('');
 
   const { lifes, takeOneLife, resetLifes } = useLifes({ start: 10 });
-  const { score, addScore, resetScore } = useScore();
+  const { score, addScore } = useScore();
 
   const handleGuessChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = +e.target.value;
@@ -38,26 +38,31 @@ const GuessingGame = () => {
     setGuess(0);
     setResult('');
     resetLifes();
-    resetScore();
   };
 
   return (
     <>
       <h1>Guessing game</h1>
-      <p>Tries: {lifes}</p>
-      <p>Score: {score}</p>
 
-      <p>I am thinking of a number. Can you guess which one?</p>
-      <p>{result}</p>
+      <h3>I am thinking of a number. Can you guess which one?</h3>
+      <p>Tries: {lifes} | Score: {score}</p>
 
-      <input
-        type='number'
-        min={1}
-        max={100}
-        value={guess}
-        onChange={handleGuessChange}
-      />
-      <button onClick={handleGuess}>Guess</button>
+      {lifes > 0 ? (
+        <>
+          <p>{result}</p>
+          <input
+            type='number'
+            min={1}
+            max={100}
+            value={guess}
+            onChange={handleGuessChange}
+          />
+          <button onClick={handleGuess}>Guess</button>{' '}
+        </>
+      ) : (
+        <p>You lose!</p>
+      )}
+
       <button onClick={handleReset}>Reset</button>
     </>
   );
