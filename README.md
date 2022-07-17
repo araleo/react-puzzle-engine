@@ -17,13 +17,13 @@ npm test
 - [ ] Game states (start, pause, end)
 - [ ] Levels
 - [ ] Utils
-    - [ ] Make 2d array (grid)
+    - [x] Make 2d array (grid)
     - [ ] Shuffle 1d and 2d arrays
     - [ ] RNGs
 
 ## Game examples
 - [x] [Guessing game](src/examples/guessing/Guessing.tsx)
-- [ ] Mine field
+- [ ] Minsweeper
 - [ ] Hangman
 - [ ] Connect dots
 - [ ] Checkers

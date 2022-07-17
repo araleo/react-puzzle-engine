@@ -1,8 +1,8 @@
 import React from 'react';
-import GuessingGame from './examples/guessing/Guessing';
+import Minesweeper from './examples/minesweeper/Minesweeper';
 
 const App = () => {
-  return <GuessingGame />
+  return <Minesweeper />
 };
 
 export default App;
