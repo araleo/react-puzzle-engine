@@ -19,9 +19,16 @@ export const copyGrid = (grid: number[][]): number[][] => {
   return newGrid;
 };
 
+export const areCoordsEqual = (
+  a: [number, number],
+  b: [number, number]
+): boolean => {
+  return a[0] === b[0] && a[1] === b[1];
+};
+
 export const checkGridCellNeighbors = (
   grid: number[][],
-  targets: number[]
+  targets: [number, number][]
 ): number[][] => {
   const newGrid = copyGrid(grid);
   for (let i = 0; i < grid.length; i++) {
@@ -37,7 +44,7 @@ export const checkGridCellNeighbors = (
   return newGrid;
 };
 
-const getCellNeighbors = (row: number, column: number): [number, number][] => {
+export const getCellNeighbors = (row: number, column: number): [number, number][] => {
   return [
     [row - 1, column - 1],
     [row - 1, column],
@@ -50,14 +57,26 @@ const getCellNeighbors = (row: number, column: number): [number, number][] => {
   ];
 };
 
-const checkCell = (
+export const checkCell = (
   grid: number[][],
   row: number,
   column: number,
-  targets: number[]
+  targets: [number, number][]
 ): number => {
   if (row < 0 || row >= grid.length || column < 0 || column >= grid[0].length) {
     return 0;
   }
-  return targets.includes(grid[row][column]) ? 1 : 0;
+  return areCoordsOnArray([row, column], targets) ? 1 : 0;
+};
+
+export const areCoordsOnArray = (
+  target: [number, number],
+  coords: [number, number][]
+) => {
+  for (const xy of coords) {
+    if (areCoordsEqual(xy, target)) {
+      return true;
+    }
+  }
+  return false;
 };
