@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import {
   areCoordsOnArray,
   checkGridCellNeighbors,
+  getCellNeighbors,
+  isCellValid,
   make2dArray,
 } from '../../lib/grid';
 import { getNRandomXYs } from '../../lib/rng';
@@ -16,8 +18,7 @@ const Minesweeper = () => {
   const [revealed, setRevealed] = useState<[number, number][]>([]);
 
   useEffect(() => {
-    const bombs = getNRandomXYs(BOMBS_AMOUNT, 0, SIZE - 1, 0, SIZE - 1);
-    setBombCells(bombs);
+    handleBombs();
   }, []);
 
   useEffect(() => {
@@ -25,12 +26,54 @@ const Minesweeper = () => {
     setGrid(newGrid);
   }, [bombCells]);
 
+  const handleBombs = () => {
+    const newBombs = getNRandomXYs(BOMBS_AMOUNT, 0, SIZE - 1, 0, SIZE - 1);
+    setBombCells(newBombs);
+  };
+
   const handleCellClick = (row: number, col: number) => {
-    if (!areCoordsOnArray([row, col], revealed)) {
-      const updated = [...revealed];
-      updated.push([row, col]);
-      setRevealed(updated);
+    let neighbors: [number, number][] = [];
+    const found: [number, number][] = [];
+    const reveal: [number, number][] = [[row, col]];
+
+    if (grid[row][col] === 0) {
+      const cellNeighbors = getCellNeighbors(row, col);
+      neighbors.push(...cellNeighbors);
+      found.push(...cellNeighbors);
     }
+
+    while (neighbors.length !== 0) {
+      const current = neighbors[0];
+      const [curRow, curCol] = current;
+      neighbors = neighbors.slice(1);
+      if (isCellValid(grid, curRow, curCol) && grid[curRow][curCol] === 0) {
+        reveal.push(current);
+        const currentNeighbors = getCellNeighbors(curRow, curCol);
+        for (const curNeighbor of currentNeighbors) {
+          if (!areCoordsOnArray(curNeighbor, found)) {
+            found.push(curNeighbor);
+            neighbors.push(curNeighbor);
+          }
+        }
+      }
+    }
+
+    revealCells(reveal);
+  };
+
+  const revealCells = (cells: [number, number][]) => {
+    const updated = [...revealed];
+    for (const cell of cells) {
+      if (!areCoordsOnArray(cell, updated)) {
+        updated.push(cell);
+      }
+    }
+    setRevealed(updated);
+  };
+
+  const handleReset = () => {
+    setRevealed([]);
+    handleBombs();
   };
 
   return (
@@ -48,7 +91,7 @@ const Minesweeper = () => {
               <div
                 key={colIdx}
                 onClick={() => handleCellClick(rowIdx, colIdx)}
-                className={style.cell}
+                className={[style.cell, isBomb ? style.bomb : ''].join(' ')}
               >
                 {show ? display : ''}
               </div>
@@ -56,6 +99,7 @@ const Minesweeper = () => {
           })}
         </div>
       ))}
+      <button onClick={handleReset}>Reset</button>
     </>
   );
 };

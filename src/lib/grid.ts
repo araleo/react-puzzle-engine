@@ -44,7 +44,10 @@ export const checkGridCellNeighbors = (
   return newGrid;
 };
 
-export const getCellNeighbors = (row: number, column: number): [number, number][] => {
+export const getCellNeighbors = (
+  row: number,
+  column: number
+): [number, number][] => {
   return [
     [row - 1, column - 1],
     [row - 1, column],
@@ -57,16 +60,20 @@ export const getCellNeighbors = (row: number, column: number): [number, number][
   ];
 };
 
+export const isCellValid = (grid: number[][], row: number, col: number) => {
+  return row >= 0 && row < grid.length && col >= 0 && col < grid[0].length;
+};
+
 export const checkCell = (
   grid: number[][],
   row: number,
-  column: number,
+  col: number,
   targets: [number, number][]
 ): number => {
-  if (row < 0 || row >= grid.length || column < 0 || column >= grid[0].length) {
+  if (!isCellValid(grid, row, col)) {
     return 0;
   }
-  return areCoordsOnArray([row, column], targets) ? 1 : 0;
+  return areCoordsOnArray([row, col], targets) ? 1 : 0;
 };
 
 export const areCoordsOnArray = (
