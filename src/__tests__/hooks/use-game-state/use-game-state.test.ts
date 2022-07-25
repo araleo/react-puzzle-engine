@@ -9,6 +9,11 @@ describe('useGameState tests', () => {
     expect(result.current.gameState).toBe(GameState.Begin);
   });
 
+  test('useGameState renders with custom default mode', () => {
+    const { result } = renderHook(() => useGameState(GameState.Running));
+    expect(result.current.gameState).toBe(GameState.Running);
+  });
+
   test('useGameState start method changes game state to Running', () => {
     const { result } = renderHook(() => useGameState());
     expect(result.current.gameState).toBe(GameState.Begin);

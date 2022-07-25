@@ -7,8 +7,10 @@ export enum GameState {
   End = 'END',
 }
 
-const useGameState = () => {
-  const [gameState, setGameState] = useState<GameState>(GameState.Begin);
+const useGameState = (defaultState?: GameState) => {
+  const [gameState, setGameState] = useState<GameState>(
+    defaultState || GameState.Begin
+  );
 
   const begin = () => {
     setGameState(GameState.Begin);
