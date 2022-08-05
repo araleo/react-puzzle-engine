@@ -14,16 +14,17 @@ npm test
 - [x] Stopwatch
 - [x] Score
 - [x] Lifes
-- [ ] Game states (start, pause, end)
+- [x] Game states (start, pause, end)
 - [ ] Levels
 - [ ] Utils
     - [x] Grid
     - [ ] Array utils
     - [ ] RNGs
+    - [ ] Pathfinding (A*, BFS, DFS)
 
 ## Game examples
 - [x] [Guessing game](src/examples/guessing/Guessing.tsx)
-- [ ] [Minesweeper](src/examples/minesweeper/Minesweeper.tsx)
+- [x] [Minesweeper](src/examples/minesweeper/Minesweeper.tsx)
 - [ ] Hangman
 - [ ] Connect dots
 - [ ] Checkers
